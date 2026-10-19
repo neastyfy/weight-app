@@ -41,6 +41,14 @@
           background-color: #101a30;
         }
       }
+      /* PWA на iPhone (status-bar-style black-translucent): страница начинается под строкой состояния,
+         но её высота (100%) короче экрана на высоту этой строки — снизу оставалась полоса,
+         и панель вкладок поднималась. Добавляем недостающую высоту. Только в установленном приложении. */
+      @media (display-mode: standalone) {
+        html {
+          height: calc(100% + env(safe-area-inset-top));
+        }
+      }
       /* These styles make the root element full-height */
       #root {
         display: flex;
