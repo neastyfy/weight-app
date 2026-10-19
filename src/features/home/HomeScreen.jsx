@@ -5,7 +5,8 @@
 // изменения или удаления записи, поэтому Главная всегда актуальна без перезагрузки.
 // Все вычисления — чистые функции (homeModel, goalModel, goalForecast) с тестами.
 import { router } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
+import { Animated } from 'react-native';
 
 import { AppText, Button, Card, Screen } from '@/components';
 import { getGoalJourney } from '@/features/goals/goalModel';
@@ -29,6 +30,8 @@ export function HomeScreen() {
   const { profile, goals } = useProfile();
   const { weightEntries, bodyMeasurements, status, reload } = useMeasurements();
   const now = useNow();
+  // Прокрутка экрана: шапка растягивает картинку, когда Главную тянут вниз
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   // Текущая цель — последняя в истории целей (в ней есть дата начала).
   // Запасной вариант — цель из профиля, если истории почему-то нет.
@@ -56,10 +59,9 @@ export function HomeScreen() {
   // список окружностей отсортирован: первая талия — последняя по дате
   const latestWaist = useMemo(() => bodyMeasurements.find((m) => m.type === 'waist') ?? null, [bodyMeasurements]);
 
-
   return (
-    <Screen withTabBar heroTop>
-      <HomeHeader summary={summary} goal={goal} now={now} />
+    <Screen withTabBar heroTop scrollY={scrollY}>
+      <HomeHeader summary={summary} goal={goal} now={now} scrollY={scrollY} />
 
       {status === 'error' ? (
         <Card>
@@ -90,7 +92,12 @@ export function HomeScreen() {
       {__DEV__ ? (
         <Card>
           <AppText variant="subheading">Для разработки</AppText>
-          <Button title="Открыть витрину" variant="secondary" icon="color-palette-outline" onPress={() => router.push('/design-preview')} />
+          <Button
+            title="Открыть витрину"
+            variant="secondary"
+            icon="color-palette-outline"
+            onPress={() => router.push('/design-preview')}
+          />
         </Card>
       ) : null}
     </Screen>

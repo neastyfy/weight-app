@@ -7,11 +7,12 @@
 // Картинка зависит от времени суток (днём — пикник, вечером и ночью — маскот спит)
 // и от темы (светлый или тёмный вариант), см. getMascotBackground.
 // Карточка «Текущий вес» немного наезжает на картинку снизу.
+// Если Главную тянут вниз, картинка растягивается вверх — сверху не появляется пустая полоса.
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Image, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Animated, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimatedTitle, AppText, PressableScale } from '@/components';
@@ -33,8 +34,12 @@ const GREETING_HEIGHT = 52 + GREETING_PADDING * 2; // высота плашки:
 // На сколько карточка под шапкой наезжает на картинку
 const HERO_OVERLAP = 36;
 
-// summary — из getWeightSummary, goal — текущая цель, now — текущее время
-export function HomeHeader({ summary, goal, now }) {
+// Сколько места сверху оставляет клип картинки для растягивания (больше любого «оттягивания»)
+const STRETCH_ROOM = 2000;
+
+// summary — из getWeightSummary, goal — текущая цель, now — текущее время,
+// scrollY — прокрутка экрана (Animated.Value; отрицательная, когда экран тянут вниз)
+export function HomeHeader({ summary, goal, now, scrollY }) {
   const { t } = useTranslation();
   const { colors, spacing, radius, layout, scheme, shadows } = useTheme();
   const { profile, goalProgress } = useProfile();
@@ -53,12 +58,20 @@ export function HomeHeader({ summary, goal, now }) {
   // начинается ниже, растягиваем её вверх, а низ оставляем на месте
   const imageGap = Math.max(0, topOffset - width * IMAGE_SHIFT);
   const imageSize = width + imageGap;
+  // Тянут вниз на d — картинка растёт от нижнего края в (1 + d / размер) раз, и её верх остаётся у края экрана
+  const stretch = scrollY
+    ? scrollY.interpolate({
+        inputRange: [-imageSize, 0],
+        outputRange: [2, 1],
+        extrapolateLeft: 'extend',
+        extrapolateRight: 'clamp',
+      })
+    : 1;
 
   return (
     <View
       style={{
         height: heroHeight,
-        overflow: 'hidden', // картинка не должна выходить за шапку
         // на всю ширину и под строку состояния: выходим за отступы экрана
         marginHorizontal: -layout.screenPadding,
         marginTop: -topOffset,
@@ -66,19 +79,24 @@ export function HomeHeader({ summary, goal, now }) {
         marginBottom: -(HERO_OVERLAP + spacing.lg),
       }}
     >
-      <Image
-        source={getMascotBackground(profile.mascotId, timeOfDay, scheme)}
-        // явные размеры: в браузере картинка без них берёт свой исходный размер
-        style={{
-          position: 'absolute',
-          top: topOffset - width * IMAGE_SHIFT - imageGap,
-          left: (width - imageSize) / 2,
-          width: imageSize,
-          height: imageSize,
-        }}
-        resizeMode="cover"
-        accessibilityIgnoresInvertColors
-      />
+      {/* Клип картинки: снизу обрезает по шапке, сверху оставляет место для растягивания */}
+      <View style={[styles.imageClip, { top: -STRETCH_ROOM }]}>
+        <Animated.Image
+          source={getMascotBackground(profile.mascotId, timeOfDay, scheme)}
+          // явные размеры: в браузере картинка без них берёт свой исходный размер
+          style={{
+            position: 'absolute',
+            top: STRETCH_ROOM + topOffset - width * IMAGE_SHIFT - imageGap,
+            left: (width - imageSize) / 2,
+            width: imageSize,
+            height: imageSize,
+            transformOrigin: 'bottom',
+            transform: [{ scale: stretch }],
+          }}
+          resizeMode="cover"
+          accessibilityIgnoresInvertColors
+        />
+      </View>
       {/* Снизу картинка растворяется в фоне экрана */}
       <LinearGradient
         colors={[`${colors.background}00`, colors.background]}
@@ -160,6 +178,7 @@ export function HomeHeader({ summary, goal, now }) {
 
 const styles = StyleSheet.create({
   fade: { position: 'absolute', left: 0, right: 0 },
+  imageClip: { position: 'absolute', left: 0, right: 0, bottom: 0, overflow: 'hidden' },
   // хвостик облачка — повёрнутый квадрат у левого края, смотрит на маскота
   tail: { position: 'absolute', left: -6, top: 22, width: 18, height: 18, borderRadius: 3, transform: [{ rotate: '45deg' }] },
 });
