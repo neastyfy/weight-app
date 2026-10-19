@@ -8,15 +8,16 @@ import { createTranslator } from '@/i18n/translator';
 import { fonts } from '@/theme/fonts';
 import { themes } from '@/theme/themes';
 
-// reason: 'busy' — база открыта в другой вкладке браузера (свой текст), иначе общий
+// reason: 'busy' — база открыта в другой вкладке; 'unsupported' — браузер не может запустить базу;
+// без reason — общий текст
 export function ErrorScreen({ onRetry, language, reason }) {
   const { colors, radius } = themes.light;
   const t = createTranslator(language ?? getLocales()?.[0]?.languageCode ?? 'en');
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>{t(reason === 'busy' ? 'errors.busyTitle' : 'errors.loadTitle')}</Text>
-      <Text style={[styles.text, { color: colors.textSecondary }]}>{t(reason === 'busy' ? 'errors.busyText' : 'errors.loadText')}</Text>
+      <Text style={[styles.title, { color: colors.text }]}>{t(reason ? `errors.${reason}Title` : 'errors.loadTitle')}</Text>
+      <Text style={[styles.text, { color: colors.textSecondary }]}>{t(reason ? `errors.${reason}Text` : 'errors.loadText')}</Text>
       {onRetry ? (
         <Pressable
           onPress={onRetry}

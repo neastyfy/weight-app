@@ -49,3 +49,9 @@ export function reloadApp() {
   markDatabaseOpened();
   window.location.reload();
 }
+
+// Может ли браузер запустить базу: нужна «изолированная» страница (заголовки COOP/COEP)
+// и SharedArrayBuffer. Если нет — вместо бесконечной загрузки покажем понятный экран.
+export function isDatabaseSupported() {
+  return typeof window !== 'undefined' && window.crossOriginIsolated === true && typeof SharedArrayBuffer !== 'undefined';
+}

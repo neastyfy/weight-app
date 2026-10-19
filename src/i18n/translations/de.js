@@ -56,6 +56,8 @@ export default {
     in: 'Zoll',
   },
   errors: {
+    unsupportedTitle: 'Dieser Browser wird nicht unterstützt',
+    unsupportedText: 'WeightApp speichert deine Daten auf dem Gerät, und diesem Browser fehlen die nötigen Funktionen. Öffne den Link in Safari (auf dem iPhone) oder Chrome - nicht im eingebauten Browser eines Messengers.',
     busyTitle: 'Die App ist bereits geöffnet',
     busyText: 'WeightApp ist in einem anderen Tab oder Fenster geöffnet. Schließe es und tippe auf Erneut versuchen - deine Daten sind sicher.',
     required: 'Bitte fülle dieses Feld aus',

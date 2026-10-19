@@ -11,3 +11,8 @@ export function recoverFromBusyDatabase() {
 export function markDatabaseOpened() {}
 
 export const reloadApp = null;
+
+// На iOS база работает всегда
+export function isDatabaseSupported() {
+  return true;
+}

@@ -56,6 +56,8 @@ export default {
     in: 'Palce',
   },
   errors: {
+    unsupportedTitle: 'Tento prohlížeč není podporován',
+    unsupportedText: 'WeightApp ukládá data v zařízení a tomuto prohlížeči chybí potřebné funkce. Otevři odkaz v Safari (na iPhonu) nebo Chrome - ne ve vestavěném prohlížeči messengeru.',
     busyTitle: 'Aplikace je už otevřená',
     busyText: 'WeightApp je otevřený v jiné kartě nebo okně. Zavři ho a klepni na «Zkusit znovu» - data jsou v bezpečí.',
     required: 'Vyplň toto pole',

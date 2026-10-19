@@ -16,7 +16,7 @@ import { WidgetSync } from '@/features/widget/WidgetSync';
 import { LanguageProvider, useTranslation } from '@/i18n';
 import { DATABASE_NAME, migrateDatabase } from '@/storage/database';
 import { ThemeProvider, fontFiles, useTheme } from '@/theme';
-import { isDatabaseBusyError, markDatabaseOpened, recoverFromBusyDatabase, reloadApp } from '@/lib/databaseLock';
+import { isDatabaseBusyError, isDatabaseSupported, markDatabaseOpened, recoverFromBusyDatabase, reloadApp } from '@/lib/databaseLock';
 import { logError } from '@/lib/logError';
 
 // Если при запуске что-то сломалось (например, не открылась база) — экран с кнопкой «Повторить».
@@ -32,6 +32,11 @@ export function ErrorBoundary({ error, retry }) {
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts(fontFiles);
+
+  // Браузер не может запустить базу (нет изоляции страницы) — честный экран вместо вечной загрузки
+  if (!isDatabaseSupported()) {
+    return <ErrorScreen onRetry={reloadApp} reason="unsupported" />;
+  }
 
   if (!fontsLoaded) {
     return <LoadingScreen />;

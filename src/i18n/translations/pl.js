@@ -56,6 +56,8 @@ export default {
     in: 'Cale',
   },
   errors: {
+    unsupportedTitle: 'Ta przeglądarka nie jest obsługiwana',
+    unsupportedText: 'WeightApp przechowuje dane na urządzeniu, a tej przeglądarce brakuje potrzebnych funkcji. Otwórz link w Safari (na iPhonie) lub Chrome - nie we wbudowanej przeglądarce komunikatora.',
     busyTitle: 'Aplikacja jest już otwarta',
     busyText: 'WeightApp jest otwarty w innej karcie lub oknie. Zamknij go i dotknij «Spróbuj ponownie» - dane są bezpieczne.',
     required: 'Wypełnij to pole',
