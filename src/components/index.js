@@ -1,6 +1,7 @@
 // Общие UI-компоненты. Импорт: import { Button, Card } from '@/components';
 export { AnimatedTitle } from './AnimatedTitle';
 export { Appear } from './Appear';
+export { AppSafeArea } from './AppSafeArea';
 export { AppText } from './AppText';
 export { Button } from './Button';
 export { Card } from './Card';

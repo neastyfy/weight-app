@@ -6,9 +6,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Suspense, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { ErrorScreen, LoadingScreen } from '@/components';
+import { AppSafeArea, ErrorScreen, LoadingScreen } from '@/components';
 import { GoalCelebration } from '@/features/goals/GoalCelebration';
 import { MeasurementsProvider } from '@/features/measurements/MeasurementsProvider';
 import { ProfileProvider, useProfile } from '@/features/profile';
@@ -50,9 +49,8 @@ export default function RootLayout() {
   }
 
   return (
-    // Свой SafeAreaProvider: в браузере провайдер Expo Router всегда отдаёт нулевые отступы,
-    // и приложение заезжало бы под «чёлку» iPhone. Этот измеряет настоящие (env(safe-area-inset-*)).
-    <SafeAreaProvider>
+    // Безопасные зоны (в браузере — свои, см. AppSafeArea.web.jsx)
+    <AppSafeArea>
       {/* Корень для жестов (перетаскивание шкал) */}
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Suspense fallback={<LoadingScreen />}>
@@ -70,7 +68,7 @@ export default function RootLayout() {
           </SQLiteProvider>
         </Suspense>
       </GestureHandlerRootView>
-    </SafeAreaProvider>
+    </AppSafeArea>
   );
 }
 
