@@ -24,6 +24,7 @@ export { ScreenHeader } from './ScreenHeader';
 export { SectionHeader } from './SectionHeader';
 export { SegmentedControl } from './SegmentedControl';
 export { SelectableRow, SelectionIndicator } from './SelectableRow';
+export { SafeAreaTopBand } from './SafeAreaTopBand';
 export { Sheet } from './Sheet';
 export { StatCard } from './StatCard';
 export { TextField } from './TextField';

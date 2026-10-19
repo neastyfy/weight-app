@@ -58,7 +58,7 @@ export function HomeScreen() {
 
 
   return (
-    <Screen withTabBar>
+    <Screen withTabBar heroTop>
       <HomeHeader summary={summary} goal={goal} now={now} />
 
       {status === 'error' ? (

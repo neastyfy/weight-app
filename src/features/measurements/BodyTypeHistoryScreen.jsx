@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import { FlatList, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { AppText, Button, Card, EmptyState, PageTransition, ScreenHeader } from '@/components';
+import { AppText, Button, Card, EmptyState, PageTransition, SafeAreaTopBand, ScreenHeader } from '@/components';
 import { findGoalAt } from '@/features/goals/goalModel';
 import { getChangeTone } from '@/features/metrics/changeTone';
 import { useProfile } from '@/features/profile';
@@ -97,6 +97,7 @@ export function BodyTypeHistoryScreen({ type }) {
           );
         }}
       />
+      <SafeAreaTopBand />
     </PageTransition>
   );
 }
