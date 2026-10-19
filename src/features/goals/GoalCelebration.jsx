@@ -5,7 +5,7 @@
 // ОДИН раз для каждой цели: id отпразднованной цели сохраняется в настройках.
 // Для удержания веса и «без цели» поздравление не показывается.
 import { router } from 'expo-router';
-import { useSQLiteContext } from 'expo-sqlite';
+import { useSQLiteContext } from '@/storage/sqlite';
 import { useEffect, useState } from 'react';
 import { Modal, StyleSheet, View, useWindowDimensions } from 'react-native';
 

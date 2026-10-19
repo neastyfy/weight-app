@@ -7,7 +7,7 @@
 //   • файлы сборки (/_expo/static, /assets, шрифты, иконки) — сначала из кеша:
 //     их имена содержат хеш, поэтому новая версия всегда приходит под новым именем.
 // При изменении этой логики увеличьте CACHE_VERSION — старый кеш удалится.
-const CACHE_VERSION = 'v2'; // v2: заголовки COEP require-corp (для Safari)
+const CACHE_VERSION = 'v3'; // v3: база в IndexedDB, без заголовков COOP/COEP
 const CACHE_NAME = `weightapp-${CACHE_VERSION}`;
 
 self.addEventListener('install', (event) => {

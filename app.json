@@ -30,15 +30,7 @@
     },
     "plugins": [
       "expo-font",
-      [
-        "expo-router",
-        {
-          "headers": {
-            "Cross-Origin-Embedder-Policy": "require-corp",
-            "Cross-Origin-Opener-Policy": "same-origin"
-          }
-        }
-      ],
+      "expo-router",
       "expo-status-bar",
       "expo-sqlite",
       "expo-localization",

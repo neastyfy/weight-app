@@ -2,7 +2,7 @@
 // Любой компонент получает тему через хук: const { colors, typography } = useTheme();
 // Выбор пользователя (mode) сохраняется в базе и восстанавливается при запуске:
 //   const { mode, setMode } = useTheme(); setMode('dark');
-import { useSQLiteContext } from 'expo-sqlite';
+import { useSQLiteContext } from '@/storage/sqlite';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useColorScheme } from 'react-native';
 

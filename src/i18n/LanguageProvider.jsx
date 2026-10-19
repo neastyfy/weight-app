@@ -5,7 +5,7 @@
 //   t('home.greeting', { name: 'Алекс' }) → «Привет, Алекс!»
 // Выбранный язык сохраняется в базе и восстанавливается при запуске.
 import { getLocales } from 'expo-localization';
-import { useSQLiteContext } from 'expo-sqlite';
+import { useSQLiteContext } from '@/storage/sqlite';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { SETTING_KEYS, getSetting, setSetting } from '@/storage/settingsRepository';

@@ -3,7 +3,7 @@
 //     после удаления всех данных снимок удаляется — виджет предложит открыть приложение;
 //   • напоминание о взвешивании: при смене языка текст уже запланированного уведомления
 //     перепланируется на новом языке.
-import { useSQLiteContext } from 'expo-sqlite';
+import { useSQLiteContext } from '@/storage/sqlite';
 import { useEffect, useRef } from 'react';
 
 import { useMeasurements } from '@/features/measurements/MeasurementsProvider';

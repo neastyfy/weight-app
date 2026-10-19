@@ -1,9 +1,9 @@
 // ТОЛЬКО ДЛЯ БРАУЗЕРА (на iOS — пустой databaseLock.js).
 //
-// База SQLite в браузере хранится в OPFS, и открыть её может только одна страница сразу.
-// При перезагрузке (или обновлении PWA) новая страница иногда стартует раньше, чем закрылась
-// старая, — тогда база на миг «занята». Такую ошибку исправляем сами: несколько перезагрузок
-// с паузой. Если база занята надолго (приложение открыто во второй вкладке) — честный экран.
+// База в браузере (src/storage/sqlite.web.js) открыта только в одной вкладке сразу — иначе вкладки
+// перезаписывали бы данные друг друга. При перезагрузке (или обновлении PWA) новая страница иногда
+// стартует раньше, чем закрылась старая, — тогда база на миг «занята». Такую ошибку исправляем сами:
+// несколько перезагрузок с паузой. Если база занята надолго (вторая вкладка) — честный экран.
 
 const ATTEMPTS_KEY = 'weightapp.dbLockAttempts';
 const MAX_ATTEMPTS = 5;
@@ -11,7 +11,7 @@ const MAX_ATTEMPTS = 5;
 // Ошибка «файл базы уже открыт другой страницей»?
 export function isDatabaseBusyError(error) {
   const text = `${error?.name ?? ''} ${error?.message ?? ''}`;
-  return /Access Handle|createSyncAccessHandle|NoModificationAllowedError/i.test(text);
+  return /DatabaseBusyError/.test(text);
 }
 
 function readAttempts() {
@@ -50,8 +50,8 @@ export function reloadApp() {
   window.location.reload();
 }
 
-// Может ли браузер запустить базу: нужна «изолированная» страница (заголовки COOP/COEP)
-// и SharedArrayBuffer. Если нет — вместо бесконечной загрузки покажем понятный экран.
+// Может ли браузер запустить базу: нужны WebAssembly (SQLite) и IndexedDB (хранение файла базы).
+// Если нет — вместо бесконечной загрузки покажем понятный экран.
 export function isDatabaseSupported() {
-  return typeof window !== 'undefined' && window.crossOriginIsolated === true && typeof SharedArrayBuffer !== 'undefined';
+  return typeof WebAssembly !== 'undefined' && typeof indexedDB !== 'undefined';
 }

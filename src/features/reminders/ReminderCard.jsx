@@ -2,7 +2,7 @@
 // iOS — настоящее локальное уведомление каждый день (нужно разрешение).
 // Браузер — только пояснение: надёжно доставить уведомление закрытой странице нельзя,
 // поэтому переключатель не показывается (не обещаем то, что не сработает).
-import { useSQLiteContext } from 'expo-sqlite';
+import { useSQLiteContext } from '@/storage/sqlite';
 import { useEffect, useState } from 'react';
 import { Switch, View } from 'react-native';
 

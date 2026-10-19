@@ -1,8 +1,7 @@
 // Корень приложения: шрифты, база данных, язык, тема, профиль и навигация.
 // Каждый файл в папке src/app — это экран (так работает Expo Router).
-import { useFonts } from 'expo-font';
 import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider, Stack } from 'expo-router';
-import { SQLiteProvider } from 'expo-sqlite';
+import { SQLiteProvider } from '@/storage/sqlite';
 import { StatusBar } from 'expo-status-bar';
 import { Suspense, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
@@ -15,7 +14,8 @@ import { ProfileProvider, useProfile } from '@/features/profile';
 import { WidgetSync } from '@/features/widget/WidgetSync';
 import { LanguageProvider, useTranslation } from '@/i18n';
 import { DATABASE_NAME, migrateDatabase } from '@/storage/database';
-import { ThemeProvider, fontFiles, useTheme } from '@/theme';
+import { ThemeProvider, useTheme } from '@/theme';
+import { useAppFonts } from '@/theme/useAppFonts';
 import { isDatabaseBusyError, isDatabaseSupported, markDatabaseOpened, recoverFromBusyDatabase, reloadApp } from '@/lib/databaseLock';
 import { logError } from '@/lib/logError';
 
@@ -31,7 +31,7 @@ export function ErrorBoundary({ error, retry }) {
 }
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts(fontFiles);
+  const fontsLoaded = useAppFonts();
 
   // Браузер не может запустить базу (нет изоляции страницы) — честный экран вместо вечной загрузки
   if (!isDatabaseSupported()) {

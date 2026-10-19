@@ -4,7 +4,7 @@
 // После любого изменения списки сразу обновляются — экраны перерисуются сами.
 // Ошибки операций пробрасываются дальше (ValidationError, DuplicateError, NotFoundError),
 // чтобы экран мог показать понятное сообщение.
-import { useSQLiteContext } from 'expo-sqlite';
+import { useSQLiteContext } from '@/storage/sqlite';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import {

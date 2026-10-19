@@ -1,6 +1,6 @@
 // Мотивирующая фраза для Главной: при каждом запуске — другая, чем в прошлый раз.
 // Номер последней фразы хранится в настройках. Тексты — в переводах: motivation.p1 … p8.
-import { useSQLiteContext } from 'expo-sqlite';
+import { useSQLiteContext } from '@/storage/sqlite';
 import { useEffect, useState } from 'react';
 
 import { useTranslation } from '@/i18n';

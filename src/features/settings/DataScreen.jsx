@@ -5,7 +5,7 @@
 //   2) экран «что будет восстановлено» с предупреждением о замене всех данных;
 //   3) после явного подтверждения — полная замена одной транзакцией (useProfile().restoreBackup).
 // Отмена на любом шаге ничего не меняет.
-import { useSQLiteContext } from 'expo-sqlite';
+import { useSQLiteContext } from '@/storage/sqlite';
 import { useState } from 'react';
 import { View } from 'react-native';
 

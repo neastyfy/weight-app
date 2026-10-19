@@ -4,7 +4,7 @@
 // profile === null — профиля ещё нет (показывается онбординг).
 // Последний вес берётся из измерений (useMeasurements), поэтому после добавления,
 // правки или удаления записи показатели (ИМТ, BMR) пересчитываются сразу.
-import { useSQLiteContext } from 'expo-sqlite';
+import { useSQLiteContext } from '@/storage/sqlite';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { getBodyMetrics } from '@/features/calculations';
