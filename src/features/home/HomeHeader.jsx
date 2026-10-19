@@ -49,6 +49,10 @@ export function HomeHeader({ summary, goal, now }) {
   const topOffset = insets.top + spacing.md; // отступ, который даёт экран сверху
   const pictureHeight = width * PICTURE_RATIO;
   const heroHeight = topOffset + GREETING_HEIGHT + spacing.xs + pictureHeight;
+  // Картинка всегда начинается от самого верха экрана (под «чёлкой» тоже): если по расчёту она
+  // начинается ниже, растягиваем её вверх, а низ оставляем на месте
+  const imageGap = Math.max(0, topOffset - width * IMAGE_SHIFT);
+  const imageSize = width + imageGap;
 
   return (
     <View
@@ -65,7 +69,13 @@ export function HomeHeader({ summary, goal, now }) {
       <Image
         source={getMascotBackground(profile.mascotId, timeOfDay, scheme)}
         // явные размеры: в браузере картинка без них берёт свой исходный размер
-        style={{ position: 'absolute', left: 0, top: topOffset - width * IMAGE_SHIFT, width, height: width }}
+        style={{
+          position: 'absolute',
+          top: topOffset - width * IMAGE_SHIFT - imageGap,
+          left: (width - imageSize) / 2,
+          width: imageSize,
+          height: imageSize,
+        }}
         resizeMode="cover"
         accessibilityIgnoresInvertColors
       />
