@@ -10,7 +10,7 @@
 // heroTop — шапка экрана сама заходит под «чёлку» (Главная): полоса под строкой состояния
 // проявляется только при прокрутке. На остальных экранах полоса видна всегда (SafeAreaTopBand).
 import { useRef } from 'react';
-import { Animated, View } from 'react-native';
+import { Animated, Platform, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useTheme } from '@/theme';
@@ -47,7 +47,7 @@ export function Screen({ children, scroll = true, withTabBar = false, pushed = f
         contentContainerStyle={[padding, contentStyle]}
         keyboardShouldPersistTaps="handled"
         scrollEventThrottle={16}
-        onScroll={heroTop ? Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true }) : undefined}
+        onScroll={heroTop ? Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: Platform.OS !== 'web' }) : undefined}
       >
         {content}
       </Animated.ScrollView>

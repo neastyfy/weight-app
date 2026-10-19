@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Suspense, useEffect, useMemo } from 'react';
 import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ErrorScreen, LoadingScreen } from '@/components';
 import { GoalCelebration } from '@/features/goals/GoalCelebration';
@@ -16,7 +17,13 @@ import { LanguageProvider, useTranslation } from '@/i18n';
 import { DATABASE_NAME, migrateDatabase } from '@/storage/database';
 import { ThemeProvider, useTheme } from '@/theme';
 import { useAppFonts } from '@/theme/useAppFonts';
-import { isDatabaseBusyError, isDatabaseSupported, markDatabaseOpened, recoverFromBusyDatabase, reloadApp } from '@/lib/databaseLock';
+import {
+  isDatabaseBusyError,
+  isDatabaseSupported,
+  markDatabaseOpened,
+  recoverFromBusyDatabase,
+  reloadApp,
+} from '@/lib/databaseLock';
 import { logError } from '@/lib/logError';
 
 // Если при запуске что-то сломалось (например, не открылась база) — экран с кнопкой «Повторить».
@@ -43,23 +50,27 @@ export default function RootLayout() {
   }
 
   return (
-    // Корень для жестов (перетаскивание шкал)
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Suspense fallback={<LoadingScreen />}>
-        {/* База открывается и обновляется (миграции) до показа приложения */}
-        <SQLiteProvider databaseName={DATABASE_NAME} onInit={migrateDatabase} useSuspense>
-          <LanguageProvider>
-            <ThemeProvider>
-              <MeasurementsProvider>
-                <ProfileProvider>
-                  <AppNavigator />
-                </ProfileProvider>
-              </MeasurementsProvider>
-            </ThemeProvider>
-          </LanguageProvider>
-        </SQLiteProvider>
-      </Suspense>
-    </GestureHandlerRootView>
+    // Свой SafeAreaProvider: в браузере провайдер Expo Router всегда отдаёт нулевые отступы,
+    // и приложение заезжало бы под «чёлку» iPhone. Этот измеряет настоящие (env(safe-area-inset-*)).
+    <SafeAreaProvider>
+      {/* Корень для жестов (перетаскивание шкал) */}
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Suspense fallback={<LoadingScreen />}>
+          {/* База открывается и обновляется (миграции) до показа приложения */}
+          <SQLiteProvider databaseName={DATABASE_NAME} onInit={migrateDatabase} useSuspense>
+            <LanguageProvider>
+              <ThemeProvider>
+                <MeasurementsProvider>
+                  <ProfileProvider>
+                    <AppNavigator />
+                  </ProfileProvider>
+                </MeasurementsProvider>
+              </ThemeProvider>
+            </LanguageProvider>
+          </SQLiteProvider>
+        </Suspense>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 }
 
