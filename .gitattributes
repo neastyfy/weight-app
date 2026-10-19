@@ -1,0 +1,6 @@
+# Переносы строк — LF во всех текстовых файлах (как на сервере сборки Vercel)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ttf binary
+*.docx binary
