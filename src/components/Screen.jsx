@@ -57,6 +57,8 @@ export function Screen({
         contentContainerStyle={[padding, contentStyle]}
         keyboardShouldPersistTaps="handled"
         scrollEventThrottle={16}
+        // в браузере: без «оттягивания» вниз (стиль в src/lib/webStyles.web.js)
+        nativeID={heroTop ? 'hero-scroll' : undefined}
         onScroll={
           heroTop
             ? Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: Platform.OS !== 'web' })
