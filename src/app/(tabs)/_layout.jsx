@@ -5,8 +5,8 @@ import { Tabs } from 'expo-router/js-tabs';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSequence, withSpring } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useTabBarInsets } from '@/components';
 import { useTranslation } from '@/i18n';
 import { fonts, useTheme } from '@/theme';
 import { springs } from '@/theme/motion';
@@ -28,7 +28,7 @@ const TAB_BAR_HEIGHT = 70;
 export default function TabsLayout() {
   const { colors } = useTheme();
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
+  const insets = useTabBarInsets();
 
   return (
     <Tabs
@@ -42,6 +42,7 @@ export default function TabsLayout() {
           height: TAB_BAR_HEIGHT + insets.bottom,
           paddingTop: 6,
           paddingBottom: insets.bottom + 8,
+          paddingHorizontal: insets.horizontal,
         },
         // Высота строки с запасом: у Nunito длинные «хвосты» букв (g, у, ф)
         tabBarLabelStyle: { fontFamily: fonts.semiBold, fontSize: 11, lineHeight: 18, height: 18, flexShrink: 0 },
