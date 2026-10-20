@@ -4,12 +4,13 @@
 //   и приезжают на пружине (вперёд — справа налево, назад — наоборот),
 //   снизу — кнопки «Далее» и «Пропустить» (всегда видны).
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { FadeInLeft, FadeInRight, FadeOutLeft, FadeOutRight } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimatedTitle, AppText, Button, PressableScale, ProgressBar } from '@/components';
-import { useTranslation } from '@/i18n';
+import { LANGUAGES, createTranslator, useTranslation } from '@/i18n';
 import { useTheme } from '@/theme';
 
 const HEADER_BUTTON_SIZE = 40;
@@ -48,10 +49,7 @@ export function OnboardingLayout({
   const body = (
     <>
       {showTitle ? (
-        <View style={{ gap: spacing.xs }}>
-          <AnimatedTitle variant="title">{t(`onboarding.${stepId}.title`)}</AnimatedTitle>
-          <AppText color="textSecondary">{t(`onboarding.${stepId}.subtitle`)}</AppText>
-        </View>
+        <StepHeading stepId={stepId} t={t} gap={spacing.xs} reserveForAllLanguages={stepId === 'language'} />
       ) : null}
       {children}
     </>
@@ -129,7 +127,47 @@ export function OnboardingLayout({
   );
 }
 
+// Заголовок и описание шага.
+// reserveForAllLanguages — на шаге выбора языка текст меняется сразу при выборе, и описание
+// на разных языках занимает разное число строк: тогда список под ним прыгал бы. Поэтому
+// невидимо меряем заголовок на всех языках и держим высоту самого длинного.
+function StepHeading({ stepId, t, gap, reserveForAllLanguages }) {
+  const [minHeight, setMinHeight] = useState(0);
+  const heading = (translate) => (
+    <>
+      <AnimatedTitle variant="title">{translate(`onboarding.${stepId}.title`)}</AnimatedTitle>
+      <AppText color="textSecondary">{translate(`onboarding.${stepId}.subtitle`)}</AppText>
+    </>
+  );
+
+  return (
+    <View style={{ gap, minHeight }}>
+      {heading(t)}
+      {reserveForAllLanguages
+        ? LANGUAGES.map(({ code }) => (
+            <View
+              key={code}
+              style={[styles.measure, { gap }]}
+              pointerEvents="none"
+              aria-hidden
+              accessibilityElementsHidden
+              importantForAccessibility="no-hide-descendants"
+              onLayout={(event) => {
+                const { height } = event.nativeEvent.layout;
+                setMinHeight((current) => Math.max(current, height));
+              }}
+            >
+              {heading(createTranslator(code))}
+            </View>
+          ))
+        : null}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  // невидимая копия для замера высоты (та же ширина, что у настоящего текста)
+  measure: { position: 'absolute', top: 0, left: 0, right: 0, opacity: 0 },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
