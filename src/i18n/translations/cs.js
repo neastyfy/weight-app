@@ -42,6 +42,14 @@ export default {
       name: 'Vločka',
       role: 'tvoje opora',
     },
+    bamboo: {
+      name: 'Bambus',
+      role: 'tvůj kamarád',
+    },
+    bao: {
+      name: 'Bao',
+      role: 'tvůj parťák',
+    },
   },
   units: {
     kg: 'kg',

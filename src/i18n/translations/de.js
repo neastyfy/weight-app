@@ -42,6 +42,14 @@ export default {
       name: 'Flocke',
       role: 'deine Stütze',
     },
+    bamboo: {
+      name: 'Bambus',
+      role: 'dein Freund',
+    },
+    bao: {
+      name: 'Bao',
+      role: 'dein Kumpel',
+    },
   },
   units: {
     kg: 'kg',

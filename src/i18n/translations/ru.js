@@ -42,6 +42,14 @@ export default {
       name: 'Снежка',
       role: 'твоя поддержка',
     },
+    bamboo: {
+      name: 'Бамбук',
+      role: 'твой друг',
+    },
+    bao: {
+      name: 'Бао',
+      role: 'твой напарник',
+    },
   },
   units: {
     kg: 'кг',

@@ -42,6 +42,14 @@ export default {
       name: 'Ақшақар',
       role: 'сенің тірегің',
     },
+    bamboo: {
+      name: 'Бамбук',
+      role: 'сенің досың',
+    },
+    bao: {
+      name: 'Бао',
+      role: 'сенің серігің',
+    },
   },
   units: {
     kg: 'кг',

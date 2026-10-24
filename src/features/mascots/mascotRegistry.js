@@ -103,6 +103,64 @@ export const MASCOTS = {
       },
     },
   },
+  bamboo: {
+    id: 'bamboo',
+    images: {
+      idle: require('@assets/mascots/bamboo/alpha/idle.png'),
+      happy: require('@assets/mascots/bamboo/alpha/happy.png'),
+      greet: require('@assets/mascots/bamboo/alpha/greet.png'),
+      sad: require('@assets/mascots/bamboo/alpha/sad.png'),
+      sleep: require('@assets/mascots/bamboo/alpha/sleep.png'),
+      question: require('@assets/mascots/bamboo/alpha/question.png'),
+      height: require('@assets/mascots/bamboo/alpha/height.png'),
+      weight: require('@assets/mascots/bamboo/alpha/weight.png'),
+      writing: require('@assets/mascots/bamboo/alpha/writing.png'),
+      goal: require('@assets/mascots/bamboo/alpha/goal.png'),
+      watching_down: require('@assets/mascots/bamboo/alpha/watching_down.png'),
+      celebrate: require('@assets/mascots/bamboo/alpha/celebrate.png'),
+    },
+    // Фоны Главной (сжатые копии из backgrounds/optimized): day — пикник, night — маскот спит
+    backgrounds: {
+      day: {
+        light: require('@assets/mascots/bamboo/backgrounds/optimized/day_light.jpg'),
+        dark: require('@assets/mascots/bamboo/backgrounds/optimized/day_dark.jpg'),
+      },
+      night: {
+        light: require('@assets/mascots/bamboo/backgrounds/optimized/night_light.jpg'),
+        dark: require('@assets/mascots/bamboo/backgrounds/optimized/night_dark.jpg'),
+      },
+    },
+  },
+  bao: {
+    id: 'bao',
+    images: {
+      idle: require('@assets/mascots/bao/alpha/idle.png'),
+      happy: require('@assets/mascots/bao/alpha/happy.png'),
+      greet: require('@assets/mascots/bao/alpha/greet.png'),
+      sad: require('@assets/mascots/bao/alpha/sad.png'),
+      sleep: require('@assets/mascots/bao/alpha/sleep.png'),
+      question: require('@assets/mascots/bao/alpha/question.png'),
+      height: require('@assets/mascots/bao/alpha/height.png'),
+      weight: require('@assets/mascots/bao/alpha/weight.png'),
+      writing: require('@assets/mascots/bao/alpha/writing.png'),
+      goal: require('@assets/mascots/bao/alpha/goal.png'),
+      watching_down: require('@assets/mascots/bao/alpha/watching_down.png'),
+      celebrate: require('@assets/mascots/bao/alpha/celebrate.png'),
+    },
+    // планшет и блокнот справа — персонаж кажется сдвинутым вправо
+    offsets: { writing: 0.02, goal: 0.03 },
+    // Фоны Главной (сжатые копии из backgrounds/optimized): day — пикник, night — маскот спит
+    backgrounds: {
+      day: {
+        light: require('@assets/mascots/bao/backgrounds/optimized/day_light.jpg'),
+        dark: require('@assets/mascots/bao/backgrounds/optimized/day_dark.jpg'),
+      },
+      night: {
+        light: require('@assets/mascots/bao/backgrounds/optimized/night_light.jpg'),
+        dark: require('@assets/mascots/bao/backgrounds/optimized/night_dark.jpg'),
+      },
+    },
+  },
 };
 
 export const MASCOT_IDS = Object.keys(MASCOTS);
